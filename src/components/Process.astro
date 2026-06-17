@@ -1,0 +1,83 @@
+---
+const steps = [
+  { num: "01", title: "Free Consultation", desc: "We meet at your home, listen to your vision, evaluate the space, and discuss timelines — no cost, no pressure." },
+  { num: "02", title: "Detailed Estimate", desc: "You receive a clear, itemized estimate so you know exactly what to expect: materials, labor, and timeline." },
+  { num: "03", title: "Expert Build", desc: "Our team gets to work with precision and care. We keep you informed throughout and treat your home with total respect." },
+  { num: "04", title: "Final Walkthrough", desc: "We review every detail with you before calling it done. Your satisfaction is the only benchmark that matters." },
+];
+---
+
+<section class="section process">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">How It Works</span>
+      <h2>Simple Process, Outstanding Results</h2>
+    </div>
+    <div class="steps-grid">
+      {steps.map((step, i) => (
+        <div class="step-card">
+          <div class="step-num">{step.num}</div>
+          <h3>{step.title}</h3>
+          <p>{step.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.process {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+@media (max-width: 900px) {
+  .steps-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 500px) {
+  .steps-grid { grid-template-columns: 1fr; }
+}
+
+.step-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8) var(--space-6);
+}
+
+/* Big numeric — Construktion-style oversized display number */
+.step-num {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--color-gold);
+  line-height: 1;
+  margin-bottom: var(--space-5);
+  opacity: 0.85;
+}
+
+.step-card h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+  line-height: 1.15;
+}
+
+.step-card p {
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+</style>
