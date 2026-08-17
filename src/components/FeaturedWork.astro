@@ -1,0 +1,139 @@
+---
+import { projects } from '../data/site';
+
+interface Props {
+  limit?: number;
+  showCta?: boolean;
+  heading?: string;
+}
+const { limit, showCta = true, heading = 'Recent work' } = Astro.props;
+const items = limit ? projects.slice(0, limit) : projects;
+---
+
+<section class="section section--dark work">
+  <div class="shell">
+    <div class="section-head section-head--split" data-reveal>
+      <div>
+        <p class="eyebrow on-dark">Our work</p>
+        <h2 class="display-lg">{heading}</h2>
+      </div>
+      <p class="lede">
+        Photographed on site, mid-build and finished. More goes up on Instagram
+        every week than we can fit here.
+      </p>
+    </div>
+
+    <div class="mosaic">
+      {items.map((project, i) => (
+        <figure class="tile" data-reveal style={`--reveal-delay:${(i % 3) * 90}ms`}>
+          <div class="media tile__media">
+            <img src={project.image} alt={project.alt} loading="lazy" decoding="async" />
+          </div>
+          <figcaption class="tile__cap">
+            <span class="tile__cat">{project.category}</span>
+            <span class="tile__title">{project.title}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+
+    {showCta && (
+      <div class="work__cta" data-reveal>
+        <a class="btn btn--light" href="/projects">View the full gallery</a>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .mosaic {
+    display: grid;
+    gap: clamp(0.75rem, 1.6vw, 1.25rem);
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .mosaic { grid-template-columns: repeat(2, 1fr); }
+  }
+  /* Mosaic tiles in repeating groups of six, sized so the grid always fills:
+     ┌───────────┬───┐
+     │           │ 2 │
+     │     1     ├───┤
+     │           │ 3 │
+     ├─────┬─────┼───┤
+     │  4  │  5  │ 6 │
+     └─────┴─────┴───┘ */
+  @media (min-width: 1000px) {
+    .mosaic {
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 13.5rem;
+    }
+    .tile:nth-child(6n + 1) { grid-column: span 2; grid-row: span 2; }
+    .tile:nth-child(6n + 4),
+    .tile:nth-child(6n + 5),
+    .tile:nth-child(6n + 6) { grid-row: span 2; }
+  }
+
+  .tile {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--forest-800);
+  }
+
+  .tile__media {
+    height: 100%;
+    border-radius: 0;
+    background: var(--forest-800);
+  }
+  .tile__media img { height: 100%; }
+
+  @media (max-width: 999px) {
+    .tile__media { aspect-ratio: 4 / 3; }
+  }
+
+  .tile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(14, 31, 25, 0.88) 0%, rgba(14, 31, 25, 0.2) 42%, transparent 70%);
+    opacity: 0.9;
+    transition: opacity 0.4s var(--ease);
+    pointer-events: none;
+  }
+  .tile:hover::after { opacity: 1; }
+  .tile:hover .tile__media img { transform: scale(1.06); }
+
+  .tile__cap {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: clamp(1.125rem, 2vw, 1.5rem);
+  }
+
+  .tile__cat {
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--oak);
+  }
+
+  .tile__title {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    color: #fff;
+    line-height: 1.25;
+  }
+
+  .work__cta {
+    display: flex;
+    justify-content: center;
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  }
+</style>

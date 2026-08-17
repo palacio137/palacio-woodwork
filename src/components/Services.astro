@@ -1,150 +1,126 @@
 ---
-const services = [
-  {
-    icon: `<svg width="26" height="26" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="3" y="8" width="22" height="16" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M3 12h22" stroke="currentColor" stroke-width="1.8"/><path d="M10 8V6a4 4 0 0 1 8 0v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="14" cy="17" r="2" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>`,
-    title: "Kitchen Renovation",
-    desc: "Complete kitchen transformations — layout redesign, custom cabinetry, countertops, backsplash, and finishing touches.",
-    featured: true,
-  },
-  {
-    icon: `<svg width="26" height="26" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="4" y="4" width="20" height="20" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M4 16h20" stroke="currentColor" stroke-width="1.8"/><path d="M13 4v12" stroke="currentColor" stroke-width="1.8"/><circle cx="20" cy="20" r="2.5" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>`,
-    title: "Bathroom Renovation",
-    desc: "Full bath remodels — tile work, vanities, shower enclosures, and plumbing-ready finishes designed to feel like a personal spa.",
-  },
-  {
-    icon: `<svg width="26" height="26" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="3" y="10" width="8" height="14" rx="1" stroke="currentColor" stroke-width="1.8" fill="none"/><rect x="14" y="4" width="11" height="20" rx="1" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M3 14h8M14 8h11M14 12h11M14 16h11M14 20h11" stroke="currentColor" stroke-width="1.2" opacity="0.5"/></svg>`,
-    title: "Custom Cabinetry",
-    desc: "Handcrafted cabinets built to your specs — every drawer, hinge, and finish selected for beauty and lasting durability.",
-  },
-  {
-    icon: `<svg width="26" height="26" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M14 4L24 10v14H4V10L14 4z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/><rect x="10" y="16" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>`,
-    title: "Carpentry & Trim",
-    desc: "Crown molding, baseboards, wainscoting, built-ins, and finish carpentry that add character and value to any room.",
-  },
-  {
-    icon: `<svg width="26" height="26" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="3" y="3" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.8" fill="none"/><rect x="15" y="3" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.8" fill="none"/><rect x="3" y="15" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.8" fill="none"/><rect x="15" y="15" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>`,
-    title: "Tile Installation",
-    desc: "Expert tile work for floors, backsplashes, showers, and walls — precision cuts and flawless grouting every time.",
-  },
-  {
-    icon: `<svg width="26" height="26" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 6h20M4 12h20M4 18h20M4 24h20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="6" r="1.5" fill="currentColor"/><circle cx="8" cy="12" r="1.5" fill="currentColor"/><circle cx="8" cy="18" r="1.5" fill="currentColor"/><circle cx="8" cy="24" r="1.5" fill="currentColor"/></svg>`,
-    title: "Drywall & Painting",
-    desc: "Seamless drywall installation, repair, and professional painting — smooth walls and perfect finishes from top to bottom.",
-  },
-  {
-    icon: `<svg width="26" height="26" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 24V10l10-6 10 6v14" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M9 24v-8h10v8" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/></svg>`,
-    title: "Framing",
-    desc: "Structural framing for additions, new walls, and room layouts — the strong foundation every great renovation needs.",
-  },
-];
+import { services } from '../data/site';
+
+interface Props {
+  heading?: string;
+  detailed?: boolean;
+}
+const { heading = 'What we build', detailed = false } = Astro.props;
 ---
 
-<section class="section services" id="services">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">What We Do</span>
-      <h2>Expert Services for Every Space</h2>
-      <p>From a single room refresh to a full home transformation, we bring skill, care, and precision to every project.</p>
+<section class="section section--paper" id="services">
+  <div class="shell">
+    <div class="section-head section-head--split" data-reveal>
+      <div>
+        <p class="eyebrow">Services</p>
+        <h2 class="display-lg">{heading}</h2>
+      </div>
+      <p class="lede">
+        One team for the cabinetry, the carpentry and everything around it — so the
+        finish lines up with the framing and nobody points at anybody else.
+      </p>
     </div>
 
-    <div class="services-grid">
-      {services.map((s) => (
-        <div class={`service-card${s.featured ? ' featured' : ''}`}>
-          <div class="service-icon" set:html={s.icon} />
-          <h3>{s.title}</h3>
-          <p>{s.desc}</p>
-        </div>
-      ))}
+    <div class="cards">
+      {services.map((service, i) => (
+        <article class="card" id={service.slug} data-reveal style={`--reveal-delay:${(i % 3) * 90}ms`}>
+          <div class="media media--3x2 card__media">
+            <img src={service.image} alt={service.alt} loading="lazy" decoding="async" />
+          </div>
 
-      <div class="service-card service-cta-card">
-        <h3>Complete Interior Remodeling</h3>
-        <p>Whole-home transformations managed start to finish. We coordinate every trade and deliver a cohesive, beautiful result.</p>
-        <a href="#contact" class="btn-pill btn-pill-solid">Get Your Free Estimate</a>
-      </div>
+          <div class="card__body">
+            <h3 class="display-sm">{service.title}</h3>
+            <p class="card__text">{detailed ? service.body : service.short}</p>
+
+            {detailed && (
+              <ul class="card__points">
+                {service.points.map((point) => (
+                  <li>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {!detailed && (
+              <a class="link-arrow card__link" href={`/services#${service.slug}`}>
+                Learn more
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h13M13 6l6 6-6 6" />
+                </svg>
+              </a>
+            )}
+          </div>
+        </article>
+      ))}
     </div>
   </div>
 </section>
 
 <style>
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--space-4);
-}
+  .cards {
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 2.25rem);
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+  }
+  @media (min-width: 720px)  { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1040px) { .cards { grid-template-columns: repeat(3, 1fr); } }
 
-.service-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  padding: var(--space-8);
-  transition: box-shadow var(--transition), border-color var(--transition), transform var(--transition);
-}
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    scroll-margin-top: 7rem;
+    transition: border-color 0.35s var(--ease), transform 0.35s var(--ease),
+                box-shadow 0.35s var(--ease);
+  }
+  .card:hover {
+    border-color: var(--line-strong);
+    transform: translateY(-4px);
+    box-shadow: 0 24px 44px -32px rgba(20, 32, 27, 0.45);
+  }
+  .card:hover .card__media img { transform: scale(1.05); }
 
-.service-card:hover {
-  box-shadow: var(--shadow-md);
-  border-color: color-mix(in srgb, var(--color-primary) 30%, var(--color-border));
-  transform: translateY(-2px);
-}
+  .card__media { border-radius: 0; }
 
-.service-card.featured {
-  background: color-mix(in srgb, var(--color-primary) 4%, var(--color-bg));
-  border-color: color-mix(in srgb, var(--color-primary) 25%, var(--color-border));
-  grid-column: span 2;
-}
+  .card__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: clamp(1.5rem, 2.4vw, 1.875rem);
+  }
 
-@media (max-width: 640px) {
-  .service-card.featured { grid-column: span 1; }
-}
+  .card__text {
+    margin-top: 0.875rem;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
 
-.service-icon {
-  width: 50px;
-  height: 50px;
-  background: var(--color-primary-light);
-  color: var(--color-primary);
-  border: 1px solid color-mix(in srgb, var(--color-primary) 18%, transparent);
-  border-radius: var(--radius-lg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: var(--space-5);
-  flex-shrink: 0;
-}
+  .card__points {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+  }
+  .card__points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .card__points svg {
+    color: var(--oak);
+    flex: none;
+    margin-top: 0.32rem;
+  }
 
-.service-card h3 {
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--color-text);
-  margin-bottom: var(--space-3);
-  line-height: 1.15;
-}
-
-.service-card p {
-  font-size: var(--text-base);
-  font-weight: 400;
-  color: var(--color-text-muted);
-  line-height: 1.6;
-}
-
-.service-cta-card {
-  background: var(--color-text);
-  border-color: var(--color-text);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.service-cta-card h3 {
-  color: var(--color-text-inverse);
-}
-
-.service-cta-card p {
-  color: rgba(255,255,255,0.55);
-}
-
-.service-cta-card:hover {
-  border-color: var(--color-text);
-  transform: translateY(-2px);
-}
+  .card__link { margin-top: auto; padding-top: 1.5rem; }
 </style>

@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import FAQ from '../components/FAQ.astro';
+---
+
+<Layout
+  title="Contact | Request a Quote — Palacio Woodwork, West Palm Beach"
+  description="Request a quote for custom cabinetry, a kitchen or bathroom remodel, or fine carpentry in West Palm Beach and Palm Beach County. Call or WhatsApp 561-332-9669."
+  path="/contact"
+>
+  <PageHero
+    eyebrow="Contact"
+    title="Let's talk about your project"
+    body="Call, WhatsApp or send the form below. We answer our own phone."
+    image="/img/bath-marble.jpg"
+    alt="Finished bathroom with marble walls and modern fixtures"
+  />
+
+  <ContactForm />
+  <FAQ />
+</Layout>

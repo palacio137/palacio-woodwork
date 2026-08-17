@@ -1,0 +1,154 @@
+---
+import { company } from '../data/site';
+
+const pillars = [
+  {
+    title: 'Measured, not guessed',
+    body: 'Every cabinet, tread and casing is cut to the room it lives in. Old houses are never square — the fix is measuring, not caulk.',
+  },
+  {
+    title: 'One crew, start to finish',
+    body: 'The people who frame it are the people who finish it. Nothing gets lost in the handoff between trades.',
+  },
+  {
+    title: 'A clean site every evening',
+    body: 'You still live there. We protect the floors, contain the dust and leave the space walkable at the end of each day.',
+  },
+  {
+    title: 'The scope in writing',
+    body: 'Stage by stage, with what it costs and what it depends on — so the number at the end is the number you agreed to.',
+  },
+];
+---
+
+<section class="section craft">
+  <div class="shell craft__grid">
+    <div class="craft__media" data-reveal>
+      <div class="media media--4x5 craft__main">
+        <img src="/img/craft-chisel.jpg" alt="Hands carving a curve into a solid timber board with a chisel" loading="lazy" decoding="async" />
+      </div>
+      <div class="media media--1x1 craft__inset">
+        <img src="/work/kitchen-gloss.jpg" alt="Finished galley kitchen with high-gloss cabinetry" loading="lazy" decoding="async" />
+      </div>
+      <p class="craft__stamp">
+        <span>Est.</span>
+        {company.city}
+      </p>
+    </div>
+
+    <div class="craft__text" data-reveal style="--reveal-delay:120ms">
+      <p class="eyebrow">Why Palacio</p>
+      <h2 class="display-lg">
+        The difference isn't just the cabinets. <em>It's in the details.</em>
+      </h2>
+      <p class="lede craft__lede">
+        Anyone can hang a box on a wall. What separates a remodel that looks finished from
+        one that looks installed is the reveal on a door, the way a stair tread meets the
+        skirt, whether the crown returns cleanly into the corner. That is the part we care
+        about most.
+      </p>
+
+      <dl class="pillars">
+        {pillars.map((pillar, i) => (
+          <div class="pillar" data-reveal style={`--reveal-delay:${180 + i * 80}ms`}>
+            <dt>{pillar.title}</dt>
+            <dd>{pillar.body}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .craft { background: var(--sand); }
+
+  .craft__grid {
+    display: grid;
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+    align-items: center;
+  }
+  @media (min-width: 960px) {
+    .craft__grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
+  }
+
+  /* ------------------------------------------------------------- media */
+  .craft__media { position: relative; }
+
+  .craft__main { border-radius: var(--radius); }
+
+  .craft__inset {
+    position: absolute;
+    right: -1rem;
+    bottom: -1.5rem;
+    width: 42%;
+    border: 6px solid var(--sand);
+    border-radius: var(--radius);
+  }
+  @media (min-width: 960px) {
+    .craft__inset { right: -2.5rem; bottom: -2.5rem; width: 46%; }
+  }
+
+  .craft__stamp {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.75rem 1rem;
+    background: rgba(14, 31, 25, 0.82);
+    backdrop-filter: blur(6px);
+    border-radius: var(--radius);
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    color: #fff;
+    line-height: 1.15;
+  }
+  .craft__stamp span {
+    font-family: var(--font-sans);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--oak);
+  }
+
+  /* -------------------------------------------------------------- text */
+  .craft__text h2 { margin-top: 1.25rem; max-width: 18ch; }
+  .craft__text h2 em { font-style: italic; color: var(--oak-600); }
+  .craft__lede { margin-top: 1.5rem; }
+
+  .pillars {
+    display: grid;
+    gap: 1.75rem 2.5rem;
+    margin-top: clamp(2.25rem, 4vw, 3rem);
+    padding-top: clamp(2rem, 4vw, 2.5rem);
+    border-top: 1px solid var(--line);
+  }
+  @media (min-width: 620px) { .pillars { grid-template-columns: repeat(2, 1fr); } }
+
+  .pillar dt {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .pillar dt::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--oak);
+    flex: none;
+    transform: translateY(-2px);
+  }
+  .pillar dd {
+    margin: 0.5rem 0 0 0.875rem;
+    font-size: 0.9375rem;
+    line-height: 1.68;
+  }
+</style>

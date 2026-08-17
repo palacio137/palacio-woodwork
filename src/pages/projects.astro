@@ -1,0 +1,90 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import FeaturedWork from '../components/FeaturedWork.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { company } from '../data/site';
+---
+
+<Layout
+  title="Our Work | Palacio Woodwork — West Palm Beach"
+  description="Kitchens, bathrooms, staircases, outdoor cabinetry and full renovations built by Palacio Woodwork across Palm Beach County, Florida."
+  path="/projects"
+>
+  <PageHero
+    eyebrow="Our work"
+    title="Built, installed and photographed on site"
+    body="A selection of recent kitchens, baths, stairs and cabinetry. Nothing staged — these are jobs as they were handed back to the owners."
+    image="/work/spa-bath.jpg"
+    alt="Freestanding tub in a finished primary bathroom overlooking a golf course"
+  />
+
+  <FeaturedWork heading="Selected projects" showCta={false} />
+
+  <section class="section section--paper">
+    <div class="shell social" data-reveal>
+      <div>
+        <p class="eyebrow">Follow along</p>
+        <h2 class="display-md social__title">
+          New work goes up on Instagram first
+        </h2>
+        <p class="social__body">
+          Progress shots, before-and-afters and the details that never make it into a
+          finished-room photo. {company.instagramHandle} is the fastest way to see what
+          we are building this week — and the fastest way to reach us.
+        </p>
+        <div class="btn-row social__actions">
+          <a class="btn" href={company.instagram} target="_blank" rel="noopener">
+            Follow on Instagram
+          </a>
+          <a class="btn btn--ghost" href={company.facebook} target="_blank" rel="noopener">
+            Facebook
+          </a>
+        </div>
+      </div>
+
+      <div class="social__media">
+        <div class="media media--4x5">
+          <img src="/work/kitchen-shaker.jpg" alt="White shaker cabinetry installed in a bright kitchen" loading="lazy" decoding="async" />
+        </div>
+        <div class="media media--4x5">
+          <img src="/work/stairs.jpg" alt="Solid pine stair treads and risers" loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Want something like this?"
+    body="Send us a photo of your space and a note about what you have in mind."
+  />
+</Layout>
+
+<style>
+  .social {
+    display: grid;
+    gap: clamp(2.25rem, 5vw, 4rem);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .social { grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr); }
+  }
+
+  .social__title { margin-top: 1.25rem; max-width: 16ch; }
+
+  .social__body {
+    margin-top: 1.25rem;
+    max-width: 52ch;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .social__actions { margin-top: 2rem; }
+
+  .social__media {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(0.75rem, 1.5vw, 1.125rem);
+  }
+  .social__media .media:last-child { margin-top: clamp(1.5rem, 4vw, 3rem); }
+</style>

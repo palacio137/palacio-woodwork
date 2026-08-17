@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { company } from '../data/site';
+---
+
+<Layout
+  title="Page not found | Palacio Woodwork"
+  description="That page doesn't exist. Head back home or get in touch with Palacio Woodwork."
+  path="/404"
+>
+  <section class="section notfound">
+    <div class="shell notfound__inner">
+      <p class="eyebrow">Error 404</p>
+      <h1 class="display-lg">This one didn't make the cut.</h1>
+      <p class="lede">
+        The page you were looking for isn't here. Try the work gallery, or just call us —
+        that usually works faster anyway.
+      </p>
+      <div class="btn-row notfound__actions">
+        <a class="btn" href="/">Back home</a>
+        <a class="btn btn--ghost" href={company.phoneHref}>Call {company.phone}</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .notfound { background: var(--sand); }
+  .notfound__inner {
+    display: grid;
+    gap: 1.25rem;
+    justify-items: start;
+    max-width: 44rem;
+    padding-block: clamp(2rem, 8vw, 5rem);
+  }
+  .notfound__actions { margin-top: 1rem; }
+</style>

@@ -1,0 +1,73 @@
+---
+import { serviceAreas, company } from '../data/site';
+---
+
+<section class="section section--tight areas">
+  <div class="shell areas__grid">
+    <div data-reveal>
+      <p class="eyebrow">Where we work</p>
+      <h2 class="display-md areas__title">
+        Based in {company.city}. At home across Palm Beach County.
+      </h2>
+      <p class="areas__note">
+        Most of our projects sit within an easy drive of the shop, which is how we keep
+        crews on site consistently. For full remodels we also travel statewide across
+        Florida, and we take on select projects nationwide.
+      </p>
+    </div>
+
+    <ul class="areas__list" data-reveal style="--reveal-delay:120ms">
+      {serviceAreas.map((area) => (
+        <li>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+            <circle cx="12" cy="10" r="2.6" />
+          </svg>
+          {area}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .areas { background: var(--sand); border-top: 1px solid var(--line); }
+
+  .areas__grid {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .areas__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr); }
+  }
+
+  .areas__title { margin-top: 1.25rem; max-width: 22ch; }
+
+  .areas__note {
+    margin-top: 1.25rem;
+    max-width: 54ch;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  .areas__list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.875rem 1.5rem;
+  }
+  @media (min-width: 480px) { .areas__list { grid-template-columns: repeat(2, 1fr); } }
+
+  .areas__list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 0.875rem;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.9375rem;
+    color: var(--ink);
+  }
+  .areas__list svg { color: var(--oak); flex: none; }
+</style>

@@ -1,26 +1,28 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import Services from '../components/Services.astro';
-import About from '../components/About.astro';
+import Craftsmanship from '../components/Craftsmanship.astro';
+import FeaturedWork from '../components/FeaturedWork.astro';
 import Process from '../components/Process.astro';
-import Gallery from '../components/Gallery.astro';
 import Testimonials from '../components/Testimonials.astro';
-import Contact from '../components/Contact.astro';
-import Footer from '../components/Footer.astro';
+import ServiceAreas from '../components/ServiceAreas.astro';
+import FAQ from '../components/FAQ.astro';
+import CtaBand from '../components/CtaBand.astro';
 ---
 
-<Layout>
-  <Header />
-  <main id="main-content">
-    <Hero />
-    <Services />
-    <About />
-    <Process />
-    <Gallery />
-    <Testimonials />
-    <Contact />
-  </main>
-  <Footer />
+<Layout
+  title="Palacio Woodwork | Custom Cabinetry & Remodeling in West Palm Beach, FL"
+  description="Luxury kitchen and bathroom remodels, custom cabinetry and fine carpentry in West Palm Beach and across Palm Beach County. Building dreams with craftsmanship."
+  path="/"
+>
+  <Hero />
+  <Services />
+  <Craftsmanship />
+  <FeaturedWork limit={6} />
+  <Process />
+  <Testimonials />
+  <ServiceAreas />
+  <FAQ />
+  <CtaBand />
 </Layout>

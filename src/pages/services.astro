@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Services from '../components/Services.astro';
+import Process from '../components/Process.astro';
+import FAQ from '../components/FAQ.astro';
+import CtaBand from '../components/CtaBand.astro';
+---
+
+<Layout
+  title="Services | Kitchens, Cabinetry & Carpentry — Palacio Woodwork"
+  description="Luxury kitchen remodels, spa-style bathrooms, custom cabinetry, fine carpentry, decks and full home renovations across Palm Beach County, Florida."
+  path="/services"
+>
+  <PageHero
+    eyebrow="Services"
+    title="From a single stair run to the whole house"
+    body="Cabinetry and fine carpentry are the specialty. Framing, tile, finishes and project management are how we make sure the specialty lands right."
+    image="/img/kitchen-island.jpg"
+    alt="Custom kitchen island with cabinetry and pendant lighting"
+  />
+
+  <Services heading="Every service, in detail" detailed={true} />
+  <Process />
+  <FAQ />
+  <CtaBand
+    title="Not sure which one you need?"
+    body="Describe the room and we will tell you what it actually takes — including when the answer is less than you expected."
+  />
+</Layout>

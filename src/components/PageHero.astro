@@ -1,0 +1,68 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  body?: string;
+  image: string;
+  alt?: string;
+}
+const { eyebrow, title, body, image, alt = '' } = Astro.props;
+---
+
+<section class="phero">
+  <div class="phero__bg">
+    <img src={image} alt={alt} fetchpriority="high" decoding="async" />
+  </div>
+
+  <div class="shell phero__inner">
+    <p class="eyebrow on-dark" data-reveal>{eyebrow}</p>
+    <h1 class="display-lg phero__title" data-reveal style="--reveal-delay:80ms">{title}</h1>
+    {body && (
+      <p class="lede phero__body" data-reveal style="--reveal-delay:160ms">{body}</p>
+    )}
+  </div>
+</section>
+
+<style>
+  .phero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: flex-end;
+    min-height: clamp(340px, 46vh, 480px);
+    background: var(--forest-900);
+    overflow: hidden;
+  }
+
+  .phero__bg { position: absolute; inset: 0; z-index: -2; }
+  .phero__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 55%;
+  }
+
+  .phero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(to top, rgba(14, 31, 25, 0.95) 8%, rgba(14, 31, 25, 0.66) 52%, rgba(14, 31, 25, 0.4) 100%);
+  }
+
+  .phero__inner {
+    padding-block: clamp(2.75rem, 6vw, 4rem);
+    color: rgba(255, 255, 255, 0.76);
+  }
+
+  .phero__title {
+    margin-top: 1.125rem;
+    color: #fff;
+    max-width: 18ch;
+  }
+
+  .phero__body {
+    margin-top: 1.25rem;
+    color: rgba(255, 255, 255, 0.74);
+  }
+</style>

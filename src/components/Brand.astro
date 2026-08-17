@@ -1,0 +1,72 @@
+---
+interface Props {
+  variant?: 'dark' | 'light';
+  size?: 'sm' | 'md' | 'lg';
+  href?: string | null;
+}
+const { variant = 'dark', size = 'md', href = '/' } = Astro.props;
+const Tag = href ? 'a' : 'div';
+const src = variant === 'light' ? '/img/mark-light.png' : '/img/mark.png';
+---
+
+<Tag
+  class:list={['brand', `brand--${variant}`, `brand--${size}`]}
+  {...href ? { href, 'aria-label': 'Palacio Woodwork — home' } : {}}
+>
+  <img class="brand__mark" src={src} alt="" width="390" height="423" />
+  <span class="brand__type">
+    <span class="brand__name">Palacio</span>
+    <span class="brand__sub">Woodwork</span>
+  </span>
+</Tag>
+
+<style>
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .brand__mark {
+    width: auto;
+    flex: none;
+  }
+
+  .brand__type {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .brand__name {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--forest);
+  }
+
+  .brand__sub {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--oak-600);
+  }
+
+  /* sizes ------------------------------------------------------------- */
+  .brand--sm .brand__mark { height: 30px; }
+  .brand--sm .brand__name { font-size: 0.9375rem; }
+  .brand--sm .brand__sub  { font-size: 0.5rem; letter-spacing: 0.42em; margin-top: 0.3rem; }
+
+  .brand--md .brand__mark { height: 38px; }
+  .brand--md .brand__name { font-size: 1.125rem; }
+  .brand--md .brand__sub  { font-size: 0.5625rem; letter-spacing: 0.44em; margin-top: 0.35rem; }
+
+  .brand--lg .brand__mark { height: 56px; }
+  .brand--lg .brand__name { font-size: 1.625rem; }
+  .brand--lg .brand__sub  { font-size: 0.75rem; letter-spacing: 0.44em; margin-top: 0.45rem; }
+
+  /* on dark ----------------------------------------------------------- */
+  .brand--light .brand__name { color: #fff; }
+  .brand--light .brand__sub  { color: var(--oak); }
+</style>
