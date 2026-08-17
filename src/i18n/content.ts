@@ -163,7 +163,7 @@ const IMAGES = {
   kitchens: '/img/kitchen-marble.jpg',
   bathrooms: '/img/bath-tub.jpg',
   cabinetry: '/img/custom-cabinetry.jpg',
-  carpentry: '/work/stairs.jpg',
+  carpentry: '/img/staircase.jpg',
   outdoor: '/img/deck-pergola.jpg',
   framing: '/work/framing.jpg',
 };
@@ -292,7 +292,7 @@ const en: Content = {
         slug: 'carpentry',
         image: IMAGES.carpentry,
         title: 'Fine Carpentry & Millwork',
-        alt: 'Newly installed solid pine stair treads and risers with white railing',
+        alt: 'Curved hardwood staircase with polished steel handrails',
         short: 'Stairs, railings, trim and moldings — the details that make a house feel finished.',
         body: 'This is the work the company is named for. Stair treads and risers, handrails, crown molding, casing, wainscoting and paneling, cut and fitted on site so the joints disappear.',
         points: [
@@ -705,7 +705,7 @@ const es: Content = {
         slug: 'carpentry',
         image: IMAGES.carpentry,
         title: 'Carpintería Fina y Molduras',
-        alt: 'Escalones y contrahuellas de pino macizo recién instalados con barandal blanco',
+        alt: 'Escalera curva de madera noble con pasamanos de acero pulido',
         short: 'Escaleras, barandales y molduras — los detalles que hacen que una casa se sienta terminada.',
         body: 'Es el trabajo que le da el nombre a la empresa. Escalones y contrahuellas, pasamanos, molduras de corona, marcos, zócalos y paneles, cortados y ajustados en obra para que las uniones desaparezcan.',
         points: [
