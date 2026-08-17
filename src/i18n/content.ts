@@ -164,7 +164,7 @@ const IMAGES = {
   bathrooms: '/img/bath-tub.jpg',
   cabinetry: '/work/patio-cabinets.jpg',
   carpentry: '/work/stairs.jpg',
-  outdoor: '/img/wood-table.jpg',
+  outdoor: '/img/deck-pergola.jpg',
   framing: '/work/framing.jpg',
 };
 
@@ -306,7 +306,7 @@ const en: Content = {
         slug: 'outdoor',
         image: IMAGES.outdoor,
         title: 'Decks, Patios & Pergolas',
-        alt: 'Finished exterior woodwork and timber structure',
+        alt: 'Timber deck with a pergola, cable railing and a forest view',
         short: 'Outdoor structures built for Florida sun, salt air and afternoon storms.',
         body: 'Decks, custom patios, pergolas and wood fencing — designed for the way the light and weather actually move across your property, and built with materials that hold up to it.',
         points: [
@@ -719,7 +719,7 @@ const es: Content = {
         slug: 'outdoor',
         image: IMAGES.outdoor,
         title: 'Terrazas, Patios y Pérgolas',
-        alt: 'Carpintería exterior terminada en madera',
+        alt: 'Terraza de madera con pérgola, barandal de cable y vista al bosque',
         short: 'Estructuras exteriores hechas para el sol de Florida, la brisa salina y las tormentas de la tarde.',
         body: 'Decks, patios a medida, pérgolas y cercas de madera — diseñados según cómo se mueven la luz y el clima en tu propiedad, y construidos con materiales que lo aguantan.',
         points: [
