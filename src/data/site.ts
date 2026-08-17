@@ -10,7 +10,7 @@ export const company = {
   phone: '561-332-9669',
   phoneHref: 'tel:+15613329669',
   whatsapp: '15613329669',
-  email: 'palaciowoodwork@gmail.com',
+  email: 'info@palaciowoodwork.com',
 
   city: 'West Palm Beach',
   state: 'FL',

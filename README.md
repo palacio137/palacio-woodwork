@@ -73,7 +73,7 @@ Below 1000px the site uses an app layout instead of a hamburger drawer:
 
 The site is fully static, so the contact form has no server. On submit it opens
 **WhatsApp** with the details pre-filled (`wa.me/15613329669`), with an
-"Email instead" button that builds a `mailto:` to `palaciowoodwork@gmail.com`.
+"Email instead" button that builds a `mailto:` to `info@palaciowoodwork.com`.
 Nothing is stored on the site.
 
 To switch to a real inbox form later, swap the handler in
