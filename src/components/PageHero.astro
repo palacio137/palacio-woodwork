@@ -7,14 +7,19 @@ interface Props {
   image: string;
   /** Vertical focal point for the crop, e.g. '15%' to favour the top. */
   focus?: string;
+  /**
+   * 'soft' pulls the scrim back off the top-right so a detailed photo stays
+   * readable, and leans on a left-side wash to hold contrast under the text.
+   */
+  overlay?: 'default' | 'soft';
 }
-const { page, image, focus = '55%' } = Astro.props;
+const { page, image, focus = '55%', overlay = 'default' } = Astro.props;
 
 const lang: Lang = getLang(Astro.url.pathname);
 const copy = useContent(lang).pageHero[page];
 ---
 
-<section class="phero">
+<section class:list={['phero', { 'phero--soft': overlay === 'soft' }]}>
   <div class="phero__bg" style={`--focus:${focus}`}>
     <img src={image} alt="" fetchpriority="high" decoding="async" />
   </div>
@@ -51,6 +56,21 @@ const copy = useContent(lang).pageHero[page];
     inset: 0;
     z-index: -1;
     background: linear-gradient(to top, rgba(14, 31, 25, 0.95) 8%, rgba(14, 31, 25, 0.66) 52%, rgba(14, 31, 25, 0.4) 100%);
+  }
+
+  /* Lets the photograph breathe top-right while a left-side wash keeps the
+     headline well clear of WCAG AA. */
+  .phero--soft::after {
+    background:
+      linear-gradient(to top,
+        rgba(14, 31, 25, 0.92) 0%,
+        rgba(14, 31, 25, 0.72) 30%,
+        rgba(14, 31, 25, 0.3) 68%,
+        rgba(14, 31, 25, 0.1) 100%),
+      linear-gradient(to right,
+        rgba(14, 31, 25, 0.62) 0%,
+        rgba(14, 31, 25, 0.22) 45%,
+        rgba(14, 31, 25, 0) 75%);
   }
 
   .phero__inner {
