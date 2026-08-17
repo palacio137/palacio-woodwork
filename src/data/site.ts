@@ -20,7 +20,7 @@ export const company = {
   facebook: 'https://www.facebook.com/p/Palacio-Wood-Work-100063522505658/',
 };
 
-export const siteUrl = 'https://palacio-woodwork.pages.dev';
+export const siteUrl = 'https://palaciowoodwork.com';
 
 export const whatsappLink = (message: string) =>
   `https://wa.me/${company.whatsapp}?text=${encodeURIComponent(message)}`;

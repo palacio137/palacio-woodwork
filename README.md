@@ -2,7 +2,8 @@
 
 Marketing site for **Palacio Woodwork LLC** (West Palm Beach, FL).
 Astro static site, deployed on Cloudflare Pages at
-[palacio-woodwork.pages.dev](https://palacio-woodwork.pages.dev/).
+[palaciowoodwork.com](https://palaciowoodwork.com/)
+(the `palacio-woodwork.pages.dev` hostname still serves the same build).
 
 ## Running it
 

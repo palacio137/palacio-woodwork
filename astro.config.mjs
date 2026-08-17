@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://palacio-woodwork.pages.dev',
+  site: 'https://palaciowoodwork.com',
   output: 'static',
   build: {
     assets: '_assets',
