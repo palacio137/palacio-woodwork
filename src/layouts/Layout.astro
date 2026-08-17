@@ -23,18 +23,27 @@ const enPath = counterpart(here, 'en');
 const esPath = counterpart(here, 'es');
 const canonical = new URL(lang === 'en' ? enPath : esPath, siteUrl).href;
 
-const schema = {
-  '@context': 'https://schema.org',
-  '@type': 'GeneralContractor',
+// --------------------------------------------------------------------------
+// Structured data. Emitted as one @graph so the business, the site, the page
+// and its breadcrumbs cross-reference each other by @id rather than repeating.
+// --------------------------------------------------------------------------
+
+const businessId = `${siteUrl}/#business`;
+const websiteId = `${siteUrl}/#website`;
+
+const business = {
+  '@type': ['GeneralContractor', 'HomeAndConstructionBusiness'],
+  '@id': businessId,
   name: company.legalName,
   alternateName: company.name,
   slogan: t.footer.tagline,
-  description: meta.description,
+  description: t.meta.home.description,
   url: siteUrl,
-  telephone: '+15613329669',
+  telephone: `+1${company.whatsapp.slice(1)}`,
   email: company.email,
-  image: `${siteUrl}/logo.jpg`,
-  logo: `${siteUrl}/logo.jpg`,
+  image: `${siteUrl}/img/og-cover.jpg`,
+  logo: { '@type': 'ImageObject', url: `${siteUrl}/logo.jpg` },
+  priceRange: '$$$',
   address: {
     '@type': 'PostalAddress',
     addressLocality: company.city,
@@ -44,6 +53,67 @@ const schema = {
   areaServed: t.areas.list.map((n) => ({ '@type': 'City', name: n })),
   knowsLanguage: ['en', 'es'],
   sameAs: [company.instagram, company.facebook],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: t.services.eyebrow,
+    itemListElement: t.services.items.map((s) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: s.title, description: s.short },
+    })),
+  },
+};
+
+const website = {
+  '@type': 'WebSite',
+  '@id': websiteId,
+  url: siteUrl,
+  name: company.legalName,
+  inLanguage: lang,
+  publisher: { '@id': businessId },
+};
+
+const webPage = {
+  '@type': 'WebPage',
+  '@id': `${canonical}#page`,
+  url: canonical,
+  name: meta.title,
+  description: meta.description,
+  inLanguage: lang,
+  isPartOf: { '@id': websiteId },
+  about: { '@id': businessId },
+  primaryImageOfPage: { '@type': 'ImageObject', url: `${siteUrl}/img/og-cover.jpg` },
+};
+
+// Breadcrumbs on every page but the home page.
+const homeUrl = new URL(lang === 'en' ? '/' : '/es/', siteUrl).href;
+const breadcrumbs =
+  page === 'home' || page === 'notFound'
+    ? null
+    : {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: t.common.home, item: homeUrl },
+          { '@type': 'ListItem', position: 2, name: meta.title.split('|')[0].trim(), item: canonical },
+        ],
+      };
+
+// The FAQ block is rendered on the home, services and contact pages; declaring
+// it lets those answers surface directly in search results.
+const faqPage = ['home', 'services', 'contact'].includes(page)
+  ? {
+      '@type': 'FAQPage',
+      '@id': `${canonical}#faq`,
+      mainEntity: t.faq.items.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    }
+  : null;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [business, website, webPage, breadcrumbs, faqPage].filter(Boolean),
 };
 ---
 
@@ -70,8 +140,13 @@ const schema = {
     <meta property="og:title" content={meta.title} />
     <meta property="og:description" content={meta.description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={`${siteUrl}/img/hero-kitchen.jpg`} />
+    <meta property="og:image" content={`${siteUrl}/img/og-cover.jpg`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={meta.title} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={`${siteUrl}/img/og-cover.jpg`} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -98,7 +173,7 @@ const schema = {
       })();
     </script>
 
-    <set:html value={`<script type="application/ld+json">${JSON.stringify(schema)}</script>`} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
   </head>
 
   <body>

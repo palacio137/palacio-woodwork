@@ -1,0 +1,3 @@
+# Consolidate on the apex domain so search engines see one address, not three.
+https://www.palaciowoodwork.com/*   https://palaciowoodwork.com/:splat   301!
+https://palacio-woodwork.pages.dev/*   https://palaciowoodwork.com/:splat   301!
