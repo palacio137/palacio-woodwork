@@ -5,15 +5,17 @@ import { getLang, type Lang } from '../i18n/routes';
 interface Props {
   page: 'services' | 'projects' | 'about' | 'contact';
   image: string;
+  /** Vertical focal point for the crop, e.g. '15%' to favour the top. */
+  focus?: string;
 }
-const { page, image } = Astro.props;
+const { page, image, focus = '55%' } = Astro.props;
 
 const lang: Lang = getLang(Astro.url.pathname);
 const copy = useContent(lang).pageHero[page];
 ---
 
 <section class="phero">
-  <div class="phero__bg">
+  <div class="phero__bg" style={`--focus:${focus}`}>
     <img src={image} alt="" fetchpriority="high" decoding="async" />
   </div>
 
@@ -40,7 +42,7 @@ const copy = useContent(lang).pageHero[page];
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 55%;
+    object-position: center var(--focus, 55%);
   }
 
   .phero::after {
