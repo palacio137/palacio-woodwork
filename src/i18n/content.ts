@@ -162,7 +162,7 @@ export type Content = {
 const IMAGES = {
   kitchens: '/img/kitchen-marble.jpg',
   bathrooms: '/img/bath-tub.jpg',
-  cabinetry: '/work/patio-cabinets.jpg',
+  cabinetry: '/img/custom-cabinetry.jpg',
   carpentry: '/work/stairs.jpg',
   outdoor: '/img/deck-pergola.jpg',
   framing: '/work/framing.jpg',
@@ -278,7 +278,7 @@ const en: Content = {
         slug: 'cabinetry',
         image: IMAGES.cabinetry,
         title: 'Custom Cabinetry',
-        alt: 'Custom outdoor patio cabinetry with built-in grill and stone countertop',
+        alt: 'Floor-to-ceiling handleless walnut cabinetry with an integrated oven',
         short: 'Built to your dimensions, your finish and your storage — not a catalog size.',
         body: 'Closets, built-ins, entertainment walls, laundry rooms, outdoor kitchens. If it stores something, we can build it to fit the space instead of forcing the space to fit a stock box.',
         points: [
@@ -691,7 +691,7 @@ const es: Content = {
         slug: 'cabinetry',
         image: IMAGES.cabinetry,
         title: 'Gabinetes a Medida',
-        alt: 'Gabinetes exteriores a medida con parrilla empotrada y encimera de piedra',
+        alt: 'Gabinetes de nogal de piso a techo sin tiradores con horno integrado',
         short: 'A tus dimensiones, tu acabado y tu forma de guardar — no a una medida de catálogo.',
         body: 'Clósets, empotrados, muebles de entretenimiento, lavanderías, cocinas exteriores. Si guarda algo, lo construimos para que encaje en el espacio, en vez de forzar el espacio a una caja estándar.',
         points: [
