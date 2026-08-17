@@ -1,7 +1,11 @@
 ---
 import Brand from './Brand.astro';
-import { company, services, nav, serviceAreas } from '../data/site';
+import { company } from '../data/site';
+import { useContent } from '../i18n/content';
+import { getLang, path, type Lang } from '../i18n/routes';
 
+const lang: Lang = getLang(Astro.url.pathname);
+const t = useContent(lang);
 const year = new Date().getFullYear();
 ---
 
@@ -9,8 +13,8 @@ const year = new Date().getFullYear();
   <div class="shell">
     <div class="footer__top">
       <div class="footer__brand">
-        <Brand variant="light" size="lg" />
-        <p class="footer__tagline">{company.tagline}</p>
+        <Brand variant="light" size="lg" href={path('home', lang)} />
+        <p class="footer__tagline">{t.footer.tagline}</p>
         <div class="footer__social">
           <a href={company.instagram} target="_blank" rel="noopener" aria-label="Instagram">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
@@ -27,42 +31,44 @@ const year = new Date().getFullYear();
         </div>
       </div>
 
-      <nav class="footer__col" aria-label="Services">
-        <h3 class="footer__head">Services</h3>
+      <nav class="footer__col" aria-label={t.footer.services}>
+        <h3 class="footer__head">{t.footer.services}</h3>
         <ul>
-          {services.map((s) => (
-            <li><a href={`/services#${s.slug}`}>{s.title}</a></li>
+          {t.services.items.map((s) => (
+            <li><a href={`${path('services', lang)}#${s.slug}`}>{s.title}</a></li>
           ))}
         </ul>
       </nav>
 
-      <nav class="footer__col" aria-label="Company">
-        <h3 class="footer__head">Company</h3>
+      <nav class="footer__col" aria-label={t.footer.company}>
+        <h3 class="footer__head">{t.footer.company}</h3>
         <ul>
-          <li><a href="/">Home</a></li>
-          {nav.map((item) => (<li><a href={item.href}>{item.label}</a></li>))}
+          <li><a href={path('home', lang)}>{t.common.home}</a></li>
+          {t.nav.map((item) => (
+            <li><a href={path(item.key, lang)}>{item.label}</a></li>
+          ))}
         </ul>
       </nav>
 
       <div class="footer__col">
-        <h3 class="footer__head">Get in touch</h3>
+        <h3 class="footer__head">{t.footer.getInTouch}</h3>
         <ul class="footer__contact">
           <li><a href={company.phoneHref}>{company.phone}</a></li>
           <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
           <li>{company.city}, {company.state}</li>
         </ul>
-        <a class="btn btn--oak footer__cta" href="/contact">Request a quote</a>
+        <a class="btn btn--oak footer__cta" href={path('contact', lang)}>{t.footer.quote}</a>
       </div>
     </div>
 
     <div class="footer__areas">
-      <span class="footer__areas-label">Serving</span>
-      <p>{serviceAreas.join(' · ')} — and statewide across Florida</p>
+      <span class="footer__areas-label">{t.areas.footerLabel}</span>
+      <p>{t.areas.list.join(' · ')} — {t.areas.footerNote}</p>
     </div>
 
     <div class="footer__bottom">
-      <p>© {year} {company.legalName}. All rights reserved.</p>
-      <p class="footer__disciplines">{company.disciplines}</p>
+      <p>© {year} {company.legalName}. {t.footer.rights}</p>
+      <p class="footer__disciplines">{t.footer.disciplines}</p>
     </div>
   </div>
 </footer>
@@ -82,12 +88,8 @@ const year = new Date().getFullYear();
     display: grid;
     gap: clamp(2.25rem, 4vw, 3rem);
   }
-  @media (min-width: 700px) {
-    .footer__top { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (min-width: 1020px) {
-    .footer__top { grid-template-columns: 1.5fr 1fr 0.8fr 1.1fr; }
-  }
+  @media (min-width: 700px)  { .footer__top { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1020px) { .footer__top { grid-template-columns: 1.5fr 1fr 0.8fr 1.1fr; } }
 
   .footer__tagline {
     margin-top: 1.25rem;
@@ -98,11 +100,7 @@ const year = new Date().getFullYear();
     color: rgba(255, 255, 255, 0.7);
   }
 
-  .footer__social {
-    display: flex;
-    gap: 0.625rem;
-    margin-top: 1.5rem;
-  }
+  .footer__social { display: flex; gap: 0.625rem; margin-top: 1.5rem; }
   .footer__social a {
     display: grid;
     place-items: center;
@@ -112,10 +110,7 @@ const year = new Date().getFullYear();
     border-radius: var(--radius);
     color: rgba(255, 255, 255, 0.75);
   }
-  .footer__social a:hover {
-    border-color: var(--oak);
-    color: var(--oak);
-  }
+  .footer__social a:hover { border-color: var(--oak); color: var(--oak); }
 
   .footer__head {
     font-family: var(--font-sans);
@@ -135,7 +130,7 @@ const year = new Date().getFullYear();
     gap: 0.6875rem;
   }
 
-  .footer__contact li { color: rgba(255, 255, 255, 0.62); }
+  .footer__contact li { color: rgba(255, 255, 255, 0.62); overflow-wrap: anywhere; }
   .footer__cta { margin-top: 1.5rem; }
 
   .footer__areas {

@@ -1,0 +1,358 @@
+---
+import { company, whatsappLink } from '../data/site';
+import { useContent } from '../i18n/content';
+import { getLang, path, counterpart, type Lang } from '../i18n/routes';
+
+const lang: Lang = getLang(Astro.url.pathname);
+const t = useContent(lang);
+const here = Astro.url.pathname;
+
+const isActive = (target: string) => here === target || `${here}/` === target;
+
+const tabs = [
+  { key: 'home', label: t.common.home, href: path('home', lang), icon: 'home' },
+  { key: 'services', label: t.nav[0].label, href: path('services', lang), icon: 'grid' },
+  { key: 'quote', label: t.common.tabQuote, href: path('contact', lang), icon: 'quote', accent: true },
+  { key: 'call', label: t.common.call, href: company.phoneHref, icon: 'phone' },
+];
+
+const other: Lang = lang === 'en' ? 'es' : 'en';
+---
+
+<nav class="tabbar" aria-label={t.common.menu}>
+  {tabs.map((tab) => (
+    <a
+      href={tab.href}
+      class:list={['tab', { 'tab--accent': tab.accent, 'is-active': !tab.accent && isActive(tab.href) }]}
+      aria-current={!tab.accent && isActive(tab.href) ? 'page' : undefined}
+    >
+      <span class="tab__icon">
+        {tab.icon === 'home' && (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 10.2 12 3l9 7.2V20a1 1 0 0 1-1 1h-5v-6.2H9V21H4a1 1 0 0 1-1-1z" />
+          </svg>
+        )}
+        {tab.icon === 'grid' && (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="7.5" height="7.5" rx="1.2" />
+            <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.2" />
+            <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.2" />
+            <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.2" />
+          </svg>
+        )}
+        {tab.icon === 'quote' && (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Z" />
+            <path d="M14 2v5h5M9 13h6M9 17h4" />
+          </svg>
+        )}
+        {tab.icon === 'phone' && (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z" />
+          </svg>
+        )}
+      </span>
+      <span class="tab__label">{tab.label}</span>
+    </a>
+  ))}
+
+  <button class="tab" type="button" aria-expanded="false" aria-controls="app-menu" data-menu-toggle>
+    <span class="tab__icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+    </span>
+    <span class="tab__label">{t.common.menu}</span>
+  </button>
+</nav>
+
+<!-- ------------------------------------------------------------ full sheet -->
+<div class="sheet" id="app-menu" data-menu hidden>
+  <div class="sheet__head">
+    <span class="sheet__title">{t.common.menu}</span>
+    <button class="sheet__close" type="button" data-menu-close aria-label={t.common.menu}>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <path d="M18 6 6 18M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="sheet__body">
+    <nav class="sheet__nav" aria-label={t.common.menu}>
+      <a href={path('home', lang)} class:list={['sheet__link', { 'is-active': isActive(path('home', lang)) }]}>
+        {t.common.home}
+      </a>
+      {t.nav.map((item) => (
+        <a
+          href={path(item.key, lang)}
+          class:list={['sheet__link', { 'is-active': isActive(path(item.key, lang)) }]}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <p class="sheet__label">{t.services.eyebrow}</p>
+    <nav class="sheet__services" aria-label={t.services.eyebrow}>
+      {t.services.items.map((service) => (
+        <a href={`${path('services', lang)}#${service.slug}`} class="sheet__service">
+          <span class="sheet__service-img">
+            <img src={service.image} alt="" loading="lazy" decoding="async" />
+          </span>
+          <span>{service.title}</span>
+        </a>
+      ))}
+    </nav>
+
+    <p class="sheet__label">{t.common.langLabel}</p>
+    <div class="sheet__langs">
+      <a href={counterpart(here, 'en')} class:list={['sheet__lang', { 'is-active': lang === 'en' }]} data-lang-pick="en">English</a>
+      <a href={counterpart(here, 'es')} class:list={['sheet__lang', { 'is-active': lang === 'es' }]} data-lang-pick="es">Español</a>
+    </div>
+
+    <div class="sheet__contact">
+      <a class="btn btn--oak" href={whatsappLink(t.hero.whatsappMessage)} target="_blank" rel="noopener">
+        {t.common.whatsapp} · {company.phone}
+      </a>
+      <a class="sheet__mail" href={`mailto:${company.email}`}>{company.email}</a>
+      <div class="sheet__social">
+        <a href={company.instagram} target="_blank" rel="noopener">{company.instagramHandle}</a>
+        <span aria-hidden="true">·</span>
+        <a href={company.facebook} target="_blank" rel="noopener">Facebook</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ------------------------------------------------------------ tab bar */
+  .tabbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90;
+    display: flex;
+    align-items: stretch;
+    gap: 2px;
+    padding: 7px 6px calc(7px + env(safe-area-inset-bottom, 0px));
+    background: var(--forest-900);
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: 0 -6px 24px rgba(10, 22, 18, 0.32);
+  }
+  @media (min-width: 1000px) { .tabbar { display: none; } }
+
+  .tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-height: 54px;
+    padding: 6px 2px;
+    background: none;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.62);
+    transition: color 0.2s var(--ease), background 0.2s var(--ease);
+  }
+  .tab:active { background: rgba(255, 255, 255, 0.07); }
+
+  .tab__icon { display: block; }
+  .tab__icon svg { width: 21px; height: 21px; display: block; }
+
+  .tab__label {
+    font-family: var(--font-sans);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .tab.is-active { color: #fff; }
+  .tab.is-active .tab__icon { color: var(--oak); }
+
+  /* the one action tab, styled like a primary button */
+  .tab--accent {
+    background: var(--oak);
+    color: #fff;
+    margin-inline: 2px;
+  }
+  .tab--accent:active { background: var(--oak-600); }
+
+  /* ------------------------------------------------------------- sheet */
+  .sheet {
+    position: fixed;
+    inset: 0;
+    z-index: 95;
+    display: flex;
+    flex-direction: column;
+    background: var(--forest-900);
+    color: rgba(255, 255, 255, 0.72);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    animation: sheetIn 0.28s var(--ease);
+  }
+  .sheet[hidden] { display: none; }
+  @media (min-width: 1000px) { .sheet { display: none !important; } }
+
+  @keyframes sheetIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .sheet__head {
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.125rem var(--gutter);
+    background: var(--forest-900);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .sheet__title {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--oak);
+  }
+
+  .sheet__close {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--radius);
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .sheet__body {
+    padding: 0.5rem var(--gutter) calc(6.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .sheet__nav { display: flex; flex-direction: column; }
+
+  .sheet__link {
+    padding: 1.0625rem 0;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .sheet__link.is-active { color: var(--oak); }
+
+  .sheet__label {
+    margin: 2rem 0 1rem;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--oak);
+  }
+
+  .sheet__services {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.625rem;
+  }
+
+  .sheet__service {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.625rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: var(--radius);
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    color: #fff;
+  }
+  .sheet__service:active { background: rgba(255, 255, 255, 0.1); }
+
+  .sheet__service-img {
+    display: block;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: 3px;
+    background: var(--forest-800);
+  }
+  .sheet__service-img img { width: 100%; height: 100%; object-fit: cover; }
+
+  .sheet__langs { display: flex; gap: 0.625rem; }
+
+  .sheet__lang {
+    flex: 1;
+    padding: 0.8125rem;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--radius);
+  }
+  .sheet__lang.is-active {
+    background: rgba(192, 141, 91, 0.16);
+    border-color: var(--oak);
+    color: var(--oak);
+  }
+
+  .sheet__contact {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .sheet__contact .btn { width: 100%; }
+
+  .sheet__mail { font-size: 0.9375rem; color: rgba(255, 255, 255, 0.72); }
+
+  .sheet__social {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .sheet__social a:active { color: var(--oak); }
+</style>
+
+<script is:inline>
+  (() => {
+    const sheet = document.querySelector('[data-menu]');
+    const toggle = document.querySelector('[data-menu-toggle]');
+    const close = document.querySelector('[data-menu-close]');
+    if (!sheet || !toggle) return;
+
+    const setOpen = (open) => {
+      sheet.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+    };
+
+    toggle.addEventListener('click', () => setOpen(sheet.hidden));
+    close?.addEventListener('click', () => setOpen(false));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !sheet.hidden) setOpen(false);
+    });
+
+    // Remember an explicit language choice so auto-detect stops overriding it.
+    document.querySelectorAll('[data-lang-pick]').forEach((el) => {
+      el.addEventListener('click', () => {
+        try {
+          localStorage.setItem('pw-lang', el.getAttribute('data-lang-pick'));
+        } catch (_) {}
+      });
+    });
+  })();
+</script>

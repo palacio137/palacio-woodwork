@@ -1,0 +1,87 @@
+---
+import { useContent } from '../i18n/content';
+import { getLang, type Lang } from '../i18n/routes';
+
+const lang: Lang = getLang(Astro.url.pathname);
+const t = useContent(lang);
+const quote = `${t.craft.headingLead} ${t.craft.headingEm}`;
+---
+
+<section class="section section--paper">
+  <div class="shell story" data-reveal>
+    <div class="story__text">
+      <p class="eyebrow">{t.about.eyebrow}</p>
+      <h2 class="display-lg story__title">{t.about.heading}</h2>
+
+      {t.about.paragraphs.map((p) => <p>{p}</p>)}
+
+      <blockquote class="story__quote">{quote}</blockquote>
+    </div>
+
+    <aside class="story__aside">
+      <div class="media media--4x5">
+        <img src="/img/craft-shop.jpg" alt="" loading="lazy" decoding="async" />
+      </div>
+
+      <dl class="facts">
+        {t.about.factLabels.map((label, i) => (
+          <div>
+            <dt>{label}</dt>
+            <dd>{t.about.facts[i]}</dd>
+          </div>
+        ))}
+      </dl>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .story {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+  @media (min-width: 940px) {
+    .story { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
+  }
+
+  .story__title { margin-top: 1.25rem; margin-bottom: 1.75rem; max-width: 22ch; }
+
+  .story__text p { font-size: 1.0625rem; line-height: 1.72; }
+  .story__text p + p { margin-top: 1.125rem; }
+
+  .story__quote {
+    margin: clamp(2rem, 4vw, 2.75rem) 0 0;
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--oak);
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  .story__aside { display: grid; gap: 2rem; }
+
+  .facts { display: grid; gap: 1.125rem; }
+  .facts > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding-top: 0.9375rem;
+    border-top: 1px solid var(--line);
+  }
+  .facts dt {
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--oak-600);
+  }
+  .facts dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--ink);
+  }
+</style>

@@ -1,0 +1,64 @@
+---
+import { company } from '../data/site';
+import { useContent } from '../i18n/content';
+import { getLang, type Lang } from '../i18n/routes';
+
+const lang: Lang = getLang(Astro.url.pathname);
+const t = useContent(lang);
+---
+
+<section class="section section--paper">
+  <div class="shell social" data-reveal>
+    <div>
+      <p class="eyebrow">{t.social.eyebrow}</p>
+      <h2 class="display-md social__title">{t.social.heading}</h2>
+      <p class="social__body">{t.social.body}</p>
+      <div class="btn-row social__actions">
+        <a class="btn" href={company.instagram} target="_blank" rel="noopener">
+          {t.social.instagram}
+        </a>
+        <a class="btn btn--ghost" href={company.facebook} target="_blank" rel="noopener">
+          {t.social.facebook}
+        </a>
+      </div>
+    </div>
+
+    <div class="social__media">
+      <div class="media media--4x5">
+        <img src="/work/kitchen-shaker.jpg" alt="" loading="lazy" decoding="async" />
+      </div>
+      <div class="media media--4x5">
+        <img src="/work/stairs.jpg" alt="" loading="lazy" decoding="async" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .social {
+    display: grid;
+    gap: clamp(2.25rem, 5vw, 4rem);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .social { grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr); }
+  }
+
+  .social__title { margin-top: 1.25rem; max-width: 18ch; }
+
+  .social__body {
+    margin-top: 1.25rem;
+    max-width: 52ch;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .social__actions { margin-top: 2rem; }
+
+  .social__media {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(0.75rem, 1.5vw, 1.125rem);
+  }
+  .social__media .media:last-child { margin-top: clamp(1.5rem, 4vw, 3rem); }
+</style>

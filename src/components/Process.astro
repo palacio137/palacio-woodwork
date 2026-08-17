@@ -1,22 +1,23 @@
 ---
-import { process } from '../data/site';
+import { useContent } from '../i18n/content';
+import { getLang, type Lang } from '../i18n/routes';
+
+const lang: Lang = getLang(Astro.url.pathname);
+const t = useContent(lang);
 ---
 
 <section class="section section--paper">
   <div class="shell">
     <div class="section-head section-head--split" data-reveal>
       <div>
-        <p class="eyebrow">How it works</p>
-        <h2 class="display-lg">Four steps, no surprises</h2>
+        <p class="eyebrow">{t.process.eyebrow}</p>
+        <h2 class="display-lg">{t.process.heading}</h2>
       </div>
-      <p class="lede">
-        Most of the stress in a remodel comes from not knowing what happens next.
-        This is the whole sequence.
-      </p>
+      <p class="lede">{t.process.lede}</p>
     </div>
 
     <ol class="steps">
-      {process.map((step, i) => (
+      {t.process.steps.map((step, i) => (
         <li class="step" data-reveal style={`--reveal-delay:${i * 90}ms`}>
           <span class="step__num">{step.step}</span>
           <h3 class="step__title">{step.title}</h3>
@@ -34,7 +35,6 @@ import { process } from '../data/site';
     display: grid;
     gap: clamp(2rem, 3vw, 2.5rem);
     margin-top: clamp(2.5rem, 5vw, 4rem);
-    counter-reset: step;
   }
   @media (min-width: 680px)  { .steps { grid-template-columns: repeat(2, 1fr); } }
   @media (min-width: 1040px) { .steps { grid-template-columns: repeat(4, 1fr); } }
@@ -44,7 +44,6 @@ import { process } from '../data/site';
     padding-top: 1.75rem;
     border-top: 1px solid var(--line);
   }
-
   .step::before {
     content: '';
     position: absolute;

@@ -1,14 +1,21 @@
 ---
 import { company } from '../data/site';
+import { useContent } from '../i18n/content';
+import { getLang, path, type Lang } from '../i18n/routes';
 
 interface Props {
-  title?: string;
-  body?: string;
+  variant?: 'default' | 'services' | 'projects';
 }
-const {
-  title = 'Ready to start?',
-  body = 'Send photos of the space and we will tell you honestly what it takes.',
-} = Astro.props;
+const { variant = 'default' } = Astro.props;
+
+const lang: Lang = getLang(Astro.url.pathname);
+const t = useContent(lang);
+
+const copy = {
+  default: { title: t.band.title, body: t.band.body },
+  services: { title: t.band.servicesTitle, body: t.band.servicesBody },
+  projects: { title: t.band.projectsTitle, body: t.band.projectsBody },
+}[variant];
 ---
 
 <section class="band">
@@ -18,13 +25,15 @@ const {
 
   <div class="shell band__inner" data-reveal>
     <div>
-      <h2 class="display-md band__title">{title}</h2>
-      <p class="band__body">{body}</p>
+      <h2 class="display-md band__title">{copy.title}</h2>
+      <p class="band__body">{copy.body}</p>
     </div>
 
     <div class="btn-row band__actions">
-      <a class="btn btn--oak" href="/contact">Request a quote</a>
-      <a class="btn btn--outline-light" href={company.phoneHref}>Call {company.phone}</a>
+      <a class="btn btn--oak" href={path('contact', lang)}>{t.common.quote}</a>
+      <a class="btn btn--outline-light" href={company.phoneHref}>
+        {t.common.call} {company.phone}
+      </a>
     </div>
   </div>
 </section>
@@ -39,12 +48,7 @@ const {
   }
 
   .band__bg { position: absolute; inset: 0; z-index: -2; }
-  .band__bg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.28;
-  }
+  .band__bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.28; }
 
   .band::after {
     content: '';
@@ -63,11 +67,11 @@ const {
     padding-block: clamp(3rem, 6vw, 4.5rem);
   }
 
-  .band__title { color: #fff; max-width: 18ch; }
+  .band__title { color: #fff; max-width: 20ch; }
 
   .band__body {
     margin-top: 0.875rem;
-    max-width: 46ch;
+    max-width: 48ch;
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.74);
   }

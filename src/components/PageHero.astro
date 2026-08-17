@@ -1,25 +1,26 @@
 ---
+import { useContent } from '../i18n/content';
+import { getLang, type Lang } from '../i18n/routes';
+
 interface Props {
-  eyebrow: string;
-  title: string;
-  body?: string;
+  page: 'services' | 'projects' | 'about' | 'contact';
   image: string;
-  alt?: string;
 }
-const { eyebrow, title, body, image, alt = '' } = Astro.props;
+const { page, image } = Astro.props;
+
+const lang: Lang = getLang(Astro.url.pathname);
+const copy = useContent(lang).pageHero[page];
 ---
 
 <section class="phero">
   <div class="phero__bg">
-    <img src={image} alt={alt} fetchpriority="high" decoding="async" />
+    <img src={image} alt="" fetchpriority="high" decoding="async" />
   </div>
 
   <div class="shell phero__inner">
-    <p class="eyebrow on-dark" data-reveal>{eyebrow}</p>
-    <h1 class="display-lg phero__title" data-reveal style="--reveal-delay:80ms">{title}</h1>
-    {body && (
-      <p class="lede phero__body" data-reveal style="--reveal-delay:160ms">{body}</p>
-    )}
+    <p class="eyebrow on-dark" data-reveal>{copy.eyebrow}</p>
+    <h1 class="display-lg phero__title" data-reveal style="--reveal-delay:80ms">{copy.title}</h1>
+    <p class="lede phero__body" data-reveal style="--reveal-delay:160ms">{copy.body}</p>
   </div>
 </section>
 
@@ -55,14 +56,6 @@ const { eyebrow, title, body, image, alt = '' } = Astro.props;
     color: rgba(255, 255, 255, 0.76);
   }
 
-  .phero__title {
-    margin-top: 1.125rem;
-    color: #fff;
-    max-width: 18ch;
-  }
-
-  .phero__body {
-    margin-top: 1.25rem;
-    color: rgba(255, 255, 255, 0.74);
-  }
+  .phero__title { margin-top: 1.125rem; color: #fff; max-width: 20ch; }
+  .phero__body { margin-top: 1.25rem; color: rgba(255, 255, 255, 0.74); }
 </style>

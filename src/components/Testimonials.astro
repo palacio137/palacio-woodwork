@@ -1,32 +1,37 @@
 ---
 import { testimonials } from '../data/site';
+import { useContent } from '../i18n/content';
+import { getLang, type Lang } from '../i18n/routes';
+
+const lang: Lang = getLang(Astro.url.pathname);
+const t = useContent(lang);
 
 // Renders nothing until real client reviews are added to src/data/site.ts.
-const hasReviews = testimonials.length > 0;
+const items = testimonials[lang];
 ---
 
-{hasReviews && (
+{items.length > 0 && (
   <section class="section section--paper">
     <div class="shell">
       <div class="section-head" data-reveal>
-        <p class="eyebrow">Clients</p>
-        <h2 class="display-lg">In their words</h2>
+        <p class="eyebrow">{t.testimonials.eyebrow}</p>
+        <h2 class="display-lg">{t.testimonials.heading}</h2>
       </div>
 
       <div class="quotes">
-        {testimonials.map((t, i) => (
+        {items.map((item, i) => (
           <figure class="quote" data-reveal style={`--reveal-delay:${(i % 3) * 90}ms`}>
-            <div class="quote__stars" aria-label="5 out of 5 stars">
+            <div class="quote__stars" aria-label="5/5">
               {[0, 1, 2, 3, 4].map(() => (
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2Z" />
                 </svg>
               ))}
             </div>
-            <blockquote>{t.quote}</blockquote>
+            <blockquote>{item.quote}</blockquote>
             <figcaption>
-              <span class="quote__name">{t.name}</span>
-              <span class="quote__loc">{t.location}</span>
+              <span class="quote__name">{item.name}</span>
+              <span class="quote__loc">{item.location}</span>
             </figcaption>
           </figure>
         ))}

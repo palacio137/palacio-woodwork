@@ -12,22 +12,61 @@ npm run dev      # http://localhost:4321
 npm run build    # outputs to dist/
 ```
 
+## Bilingual (EN / ES)
+
+The site ships in English and Spanish.
+
+| | English | Spanish |
+| --- | --- | --- |
+| Home | `/` | `/es/` |
+| Services | `/services/` | `/es/servicios/` |
+| Our Work | `/projects/` | `/es/proyectos/` |
+| About | `/about/` | `/es/nosotros/` |
+| Contact | `/contact/` | `/es/contacto/` |
+
+- **Auto-detection**: a first-time visitor whose browser language is Spanish is sent to
+  `/es/` before the page paints.
+- **Manual override wins**: picking EN/ES in the header or the mobile menu stores the
+  choice in `localStorage` under `pw-lang`, and auto-detection never overrides it again.
+- The route table lives in [`src/i18n/routes.ts`](src/i18n/routes.ts); the switcher always
+  links to the *same page* in the other language.
+- `hreflang` alternates and a bilingual `sitemap.xml` are generated automatically.
+
 ## Editing content
 
-**Almost everything lives in [`src/data/site.ts`](src/data/site.ts)** — phone, email,
-services, project captions, FAQs, service areas and process steps. Edit that file
-rather than the pages, and every page updates.
+- **All translatable copy** — headlines, services, FAQs, process steps, button labels —
+  lives in [`src/i18n/content.ts`](src/i18n/content.ts), with an `en` and an `es` block
+  side by side. Edit both when you change one.
+- **Company facts** — phone, email, socials, city — live in
+  [`src/data/site.ts`](src/data/site.ts) and are shared by both languages.
+
+Components read the current language from the URL, so pages stay thin.
 
 ### Testimonials
 
-`testimonials` in `src/data/site.ts` is intentionally **empty**. The testimonials
-section hides itself until real reviews are added — no invented quotes. To turn it on:
+`testimonials` in `src/data/site.ts` is intentionally **empty for both languages**. The
+testimonials section hides itself until real reviews are added — no invented quotes. To
+turn it on:
 
 ```ts
-export const testimonials = [
-  { quote: 'They rebuilt our kitchen…', name: 'Maria G.', location: 'Jupiter, FL' },
-];
+export const testimonials = {
+  en: [{ quote: 'They rebuilt our kitchen…', name: 'Maria G.', location: 'Jupiter, FL' }],
+  es: [{ quote: 'Reconstruyeron nuestra cocina…', name: 'Maria G.', location: 'Jupiter, FL' }],
+};
 ```
+
+## Mobile: app-style shell
+
+Below 1000px the site uses an app layout instead of a hamburger drawer:
+
+- A fixed bottom **tab bar** — Home · Services · Quote (accent) · Call · Menu —
+  in `src/components/MobileTabBar.astro`.
+- **Menu** opens a full-screen sheet with the pages, a visual grid of the six services,
+  the language picker and contact details.
+- A floating **WhatsApp** button (`src/components/WhatsAppFloat.astro`) sits above the tab
+  bar on mobile and bottom-right on desktop.
+
+`body` carries a bottom padding so the tab bar never covers the footer.
 
 ### The quote form
 

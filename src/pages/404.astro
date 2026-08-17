@@ -1,24 +1,27 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { company } from '../data/site';
+import { useContent } from '../i18n/content';
+
+// A 404 can be served for any URL, so this page stays in the default language
+// and links out to both.
+const t = useContent('en');
+const es = useContent('es');
 ---
 
-<Layout
-  title="Page not found | Palacio Woodwork"
-  description="That page doesn't exist. Head back home or get in touch with Palacio Woodwork."
-  path="/404"
->
+<Layout page="notFound">
   <section class="section notfound">
     <div class="shell notfound__inner">
-      <p class="eyebrow">Error 404</p>
-      <h1 class="display-lg">This one didn't make the cut.</h1>
-      <p class="lede">
-        The page you were looking for isn't here. Try the work gallery, or just call us —
-        that usually works faster anyway.
-      </p>
+      <p class="eyebrow">{t.notFound.eyebrow}</p>
+      <h1 class="display-lg">{t.notFound.heading}</h1>
+      <p class="lede">{t.notFound.body}</p>
+      <p class="lede notfound__es" lang="es">{es.notFound.body}</p>
       <div class="btn-row notfound__actions">
-        <a class="btn" href="/">Back home</a>
-        <a class="btn btn--ghost" href={company.phoneHref}>Call {company.phone}</a>
+        <a class="btn" href="/">{t.notFound.back}</a>
+        <a class="btn btn--ghost" href="/es/" lang="es">{es.notFound.back}</a>
+        <a class="btn btn--ghost" href={company.phoneHref}>
+          {t.common.call} {company.phone}
+        </a>
       </div>
     </div>
   </section>
@@ -30,8 +33,9 @@ import { company } from '../data/site';
     display: grid;
     gap: 1.25rem;
     justify-items: start;
-    max-width: 44rem;
+    max-width: 46rem;
     padding-block: clamp(2rem, 8vw, 5rem);
   }
+  .notfound__es { color: var(--muted); font-size: 0.9375rem; }
   .notfound__actions { margin-top: 1rem; }
 </style>

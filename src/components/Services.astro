@@ -1,28 +1,28 @@
 ---
-import { services } from '../data/site';
+import { useContent } from '../i18n/content';
+import { getLang, path, type Lang } from '../i18n/routes';
 
 interface Props {
-  heading?: string;
   detailed?: boolean;
 }
-const { heading = 'What we build', detailed = false } = Astro.props;
+const { detailed = false } = Astro.props;
+
+const lang: Lang = getLang(Astro.url.pathname);
+const t = useContent(lang);
 ---
 
 <section class="section section--paper" id="services">
   <div class="shell">
     <div class="section-head section-head--split" data-reveal>
       <div>
-        <p class="eyebrow">Services</p>
-        <h2 class="display-lg">{heading}</h2>
+        <p class="eyebrow">{t.services.eyebrow}</p>
+        <h2 class="display-lg">{detailed ? t.services.headingDetailed : t.services.heading}</h2>
       </div>
-      <p class="lede">
-        One team for the cabinetry, the carpentry and everything around it — so the
-        finish lines up with the framing and nobody points at anybody else.
-      </p>
+      <p class="lede">{t.services.lede}</p>
     </div>
 
     <div class="cards">
-      {services.map((service, i) => (
+      {t.services.items.map((service, i) => (
         <article class="card" id={service.slug} data-reveal style={`--reveal-delay:${(i % 3) * 90}ms`}>
           <div class="media media--3x2 card__media">
             <img src={service.image} alt={service.alt} loading="lazy" decoding="async" />
@@ -46,8 +46,8 @@ const { heading = 'What we build', detailed = false } = Astro.props;
             )}
 
             {!detailed && (
-              <a class="link-arrow card__link" href={`/services#${service.slug}`}>
-                Learn more
+              <a class="link-arrow card__link" href={`${path('services', lang)}#${service.slug}`}>
+                {t.common.learnMore}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M5 12h13M13 6l6 6-6 6" />
                 </svg>
@@ -111,16 +111,8 @@ const { heading = 'What we build', detailed = false } = Astro.props;
     gap: 0.5rem;
     font-size: 0.875rem;
   }
-  .card__points li {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  .card__points svg {
-    color: var(--oak);
-    flex: none;
-    margin-top: 0.32rem;
-  }
+  .card__points li { display: flex; align-items: flex-start; gap: 0.5rem; }
+  .card__points svg { color: var(--oak); flex: none; margin-top: 0.32rem; }
 
   .card__link { margin-top: auto; padding-top: 1.5rem; }
 </style>

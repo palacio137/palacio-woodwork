@@ -1,0 +1,14 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FeaturedWork from '../../components/FeaturedWork.astro';
+import SocialFollow from '../../components/SocialFollow.astro';
+import CtaBand from '../../components/CtaBand.astro';
+---
+
+<Layout page="projects">
+  <PageHero page="projects" image="/work/spa-bath.jpg" />
+  <FeaturedWork all={true} showCta={false} />
+  <SocialFollow />
+  <CtaBand variant="projects" />
+</Layout>

@@ -1,138 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
+import AboutStory from '../components/AboutStory.astro';
 import Craftsmanship from '../components/Craftsmanship.astro';
 import ServiceAreas from '../components/ServiceAreas.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { company } from '../data/site';
 ---
 
-<Layout
-  title="About | Palacio Woodwork LLC — West Palm Beach, FL"
-  description="Palacio Woodwork is a West Palm Beach remodeling and fine carpentry company building kitchens, cabinetry and full renovations across South Florida."
-  path="/about"
->
-  <PageHero
-    eyebrow="About"
-    title="Building dreams with craftsmanship"
-    body="A West Palm Beach woodworking and remodeling company, built around the belief that the details are the job."
-    image="/img/craft-portrait.jpg"
-    alt="Carpenter working a piece of timber in the shop"
-  />
-
-  <section class="section section--paper">
-    <div class="shell story" data-reveal>
-      <div class="story__text">
-        <p class="eyebrow">Who we are</p>
-        <h2 class="display-lg story__title">A woodworking shop that took on the whole house</h2>
-
-        <p>
-          {company.legalName} started where the name says — in the wood. Cabinets, stairs,
-          railings, moldings and built-ins, made to fit rooms that were never quite square
-          to begin with.
-        </p>
-        <p>
-          Homeowners kept asking the same question: could we handle the rest of it too?
-          The tile, the framing, the plumbing rough-in, the whole kitchen instead of just
-          the cabinets. So we built the crew to do it, and kept the carpenter's standard as
-          the measure for everything else.
-        </p>
-        <p>
-          Today we run luxury kitchen and bathroom remodels, full interior and exterior
-          renovations, outdoor structures and precise structural framing — across
-          {' '}{company.region}, statewide in Florida, and on select projects nationwide.
-        </p>
-
-        <blockquote class="story__quote">
-          {company.promise}
-        </blockquote>
-      </div>
-
-      <aside class="story__aside">
-        <div class="media media--4x5">
-          <img src="/img/craft-shop.jpg" alt="Woodworking bench with tools and a project in progress" loading="lazy" decoding="async" />
-        </div>
-
-        <dl class="facts">
-          <div>
-            <dt>Based in</dt>
-            <dd>{company.city}, {company.state}</dd>
-          </div>
-          <div>
-            <dt>Specialty</dt>
-            <dd>Custom cabinetry &amp; fine carpentry</dd>
-          </div>
-          <div>
-            <dt>Also does</dt>
-            <dd>Full kitchen, bath &amp; home renovations</dd>
-          </div>
-          <div>
-            <dt>Reach</dt>
-            <dd>Palm Beach County · Florida · Nationwide</dd>
-          </div>
-        </dl>
-      </aside>
-    </div>
-  </section>
-
+<Layout page="about">
+  <PageHero page="about" image="/img/craft-portrait.jpg" />
+  <AboutStory />
   <Craftsmanship />
   <ServiceAreas />
   <CtaBand />
 </Layout>
-
-<style>
-  .story {
-    display: grid;
-    gap: clamp(2.5rem, 5vw, 4rem);
-    align-items: start;
-  }
-  @media (min-width: 940px) {
-    .story { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
-  }
-
-  .story__title { margin-top: 1.25rem; margin-bottom: 1.75rem; max-width: 20ch; }
-
-  .story__text p {
-    font-size: 1.0625rem;
-    line-height: 1.72;
-  }
-  .story__text p + p { margin-top: 1.125rem; }
-
-  .story__quote {
-    margin: clamp(2rem, 4vw, 2.75rem) 0 0;
-    padding-left: 1.5rem;
-    border-left: 2px solid var(--oak);
-    font-family: var(--font-display);
-    font-size: clamp(1.25rem, 2.2vw, 1.5rem);
-    font-style: italic;
-    line-height: 1.4;
-    color: var(--ink);
-  }
-
-  .story__aside { display: grid; gap: 2rem; }
-
-  .facts {
-    display: grid;
-    gap: 1.125rem;
-  }
-  .facts > div {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    padding-top: 0.9375rem;
-    border-top: 1px solid var(--line);
-  }
-  .facts dt {
-    font-size: 0.625rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--oak-600);
-  }
-  .facts dd {
-    margin: 0;
-    font-family: var(--font-display);
-    font-size: 1rem;
-    color: var(--ink);
-  }
-</style>

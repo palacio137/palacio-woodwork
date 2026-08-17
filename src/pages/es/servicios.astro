@@ -1,0 +1,16 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Services from '../../components/Services.astro';
+import Process from '../../components/Process.astro';
+import FAQ from '../../components/FAQ.astro';
+import CtaBand from '../../components/CtaBand.astro';
+---
+
+<Layout page="services">
+  <PageHero page="services" image="/img/kitchen-island.jpg" />
+  <Services detailed={true} />
+  <Process />
+  <FAQ />
+  <CtaBand variant="services" />
+</Layout>

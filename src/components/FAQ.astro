@@ -1,20 +1,21 @@
 ---
-import { faqs } from '../data/site';
+import { useContent } from '../i18n/content';
+import { getLang, type Lang } from '../i18n/routes';
+
+const lang: Lang = getLang(Astro.url.pathname);
+const t = useContent(lang);
 ---
 
 <section class="section faq">
   <div class="shell faq__grid">
     <div class="faq__intro" data-reveal>
-      <p class="eyebrow">Questions</p>
-      <h2 class="display-lg">Before you call</h2>
-      <p class="lede faq__lede">
-        The things homeowners ask us most. If yours isn't here, just pick up the phone —
-        we would rather answer it than have you guess.
-      </p>
+      <p class="eyebrow">{t.faq.eyebrow}</p>
+      <h2 class="display-lg">{t.faq.heading}</h2>
+      <p class="lede faq__lede">{t.faq.lede}</p>
     </div>
 
     <div class="faq__list" data-reveal style="--reveal-delay:120ms">
-      {faqs.map((faq, i) => (
+      {t.faq.items.map((faq, i) => (
         <details class="qa" open={i === 0}>
           <summary>
             <span>{faq.q}</span>
@@ -73,12 +74,6 @@ import { faqs } from '../data/site';
   }
   .qa[open] .qa__icon { transform: rotate(135deg); }
 
-  .qa__body {
-    padding-bottom: 1.5rem;
-    max-width: 62ch;
-  }
-  .qa__body p {
-    font-size: 0.9375rem;
-    line-height: 1.72;
-  }
+  .qa__body { padding-bottom: 1.5rem; max-width: 62ch; }
+  .qa__body p { font-size: 0.9375rem; line-height: 1.72; }
 </style>

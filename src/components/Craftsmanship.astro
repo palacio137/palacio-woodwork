@@ -1,55 +1,36 @@
 ---
 import { company } from '../data/site';
+import { useContent } from '../i18n/content';
+import { getLang, type Lang } from '../i18n/routes';
 
-const pillars = [
-  {
-    title: 'Measured, not guessed',
-    body: 'Every cabinet, tread and casing is cut to the room it lives in. Old houses are never square — the fix is measuring, not caulk.',
-  },
-  {
-    title: 'One crew, start to finish',
-    body: 'The people who frame it are the people who finish it. Nothing gets lost in the handoff between trades.',
-  },
-  {
-    title: 'A clean site every evening',
-    body: 'You still live there. We protect the floors, contain the dust and leave the space walkable at the end of each day.',
-  },
-  {
-    title: 'The scope in writing',
-    body: 'Stage by stage, with what it costs and what it depends on — so the number at the end is the number you agreed to.',
-  },
-];
+const lang: Lang = getLang(Astro.url.pathname);
+const t = useContent(lang);
 ---
 
 <section class="section craft">
   <div class="shell craft__grid">
     <div class="craft__media" data-reveal>
       <div class="media media--4x5 craft__main">
-        <img src="/img/craft-chisel.jpg" alt="Hands carving a curve into a solid timber board with a chisel" loading="lazy" decoding="async" />
+        <img src="/img/craft-chisel.jpg" alt="" loading="lazy" decoding="async" />
       </div>
       <div class="media media--1x1 craft__inset">
-        <img src="/work/kitchen-gloss.jpg" alt="Finished galley kitchen with high-gloss cabinetry" loading="lazy" decoding="async" />
+        <img src="/work/kitchen-gloss.jpg" alt="" loading="lazy" decoding="async" />
       </div>
       <p class="craft__stamp">
-        <span>Est.</span>
+        <span>{t.craft.stampLabel}</span>
         {company.city}
       </p>
     </div>
 
     <div class="craft__text" data-reveal style="--reveal-delay:120ms">
-      <p class="eyebrow">Why Palacio</p>
+      <p class="eyebrow">{t.craft.eyebrow}</p>
       <h2 class="display-lg">
-        The difference isn't just the cabinets. <em>It's in the details.</em>
+        {t.craft.headingLead} <em>{t.craft.headingEm}</em>
       </h2>
-      <p class="lede craft__lede">
-        Anyone can hang a box on a wall. What separates a remodel that looks finished from
-        one that looks installed is the reveal on a door, the way a stair tread meets the
-        skirt, whether the crown returns cleanly into the corner. That is the part we care
-        about most.
-      </p>
+      <p class="lede craft__lede">{t.craft.lede}</p>
 
       <dl class="pillars">
-        {pillars.map((pillar, i) => (
+        {t.craft.pillars.map((pillar, i) => (
           <div class="pillar" data-reveal style={`--reveal-delay:${180 + i * 80}ms`}>
             <dt>{pillar.title}</dt>
             <dd>{pillar.body}</dd>
@@ -72,9 +53,7 @@ const pillars = [
     .craft__grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
   }
 
-  /* ------------------------------------------------------------- media */
   .craft__media { position: relative; }
-
   .craft__main { border-radius: var(--radius); }
 
   .craft__inset {
@@ -114,8 +93,7 @@ const pillars = [
     color: var(--oak);
   }
 
-  /* -------------------------------------------------------------- text */
-  .craft__text h2 { margin-top: 1.25rem; max-width: 18ch; }
+  .craft__text h2 { margin-top: 1.25rem; max-width: 20ch; }
   .craft__text h2 em { font-style: italic; color: var(--oak-600); }
   .craft__lede { margin-top: 1.5rem; }
 

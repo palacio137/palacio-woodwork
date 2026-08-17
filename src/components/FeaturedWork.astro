@@ -1,26 +1,27 @@
 ---
-import { projects } from '../data/site';
+import { useContent } from '../i18n/content';
+import { getLang, path, type Lang } from '../i18n/routes';
 
 interface Props {
   limit?: number;
   showCta?: boolean;
-  heading?: string;
+  all?: boolean;
 }
-const { limit, showCta = true, heading = 'Recent work' } = Astro.props;
-const items = limit ? projects.slice(0, limit) : projects;
+const { limit, showCta = true, all = false } = Astro.props;
+
+const lang: Lang = getLang(Astro.url.pathname);
+const t = useContent(lang);
+const items = limit ? t.work.items.slice(0, limit) : t.work.items;
 ---
 
 <section class="section section--dark work">
   <div class="shell">
     <div class="section-head section-head--split" data-reveal>
       <div>
-        <p class="eyebrow on-dark">Our work</p>
-        <h2 class="display-lg">{heading}</h2>
+        <p class="eyebrow on-dark">{t.work.eyebrow}</p>
+        <h2 class="display-lg">{all ? t.work.headingAll : t.work.heading}</h2>
       </div>
-      <p class="lede">
-        Photographed on site, mid-build and finished. More goes up on Instagram
-        every week than we can fit here.
-      </p>
+      <p class="lede">{t.work.lede}</p>
     </div>
 
     <div class="mosaic">
@@ -39,7 +40,7 @@ const items = limit ? projects.slice(0, limit) : projects;
 
     {showCta && (
       <div class="work__cta" data-reveal>
-        <a class="btn btn--light" href="/projects">View the full gallery</a>
+        <a class="btn btn--light" href={path('projects', lang)}>{t.work.cta}</a>
       </div>
     )}
   </div>
@@ -52,13 +53,12 @@ const items = limit ? projects.slice(0, limit) : projects;
     margin-top: clamp(2.5rem, 5vw, 4rem);
     grid-template-columns: 1fr;
   }
-  @media (min-width: 640px) {
-    .mosaic { grid-template-columns: repeat(2, 1fr); }
-  }
-  /* Mosaic tiles in repeating groups of six, sized so the grid always fills:
+  @media (min-width: 640px) { .mosaic { grid-template-columns: repeat(2, 1fr); } }
+
+  /* Repeating groups of six, sized so the grid always fills:
      ┌───────────┬───┐
-     │           │ 2 │
-     │     1     ├───┤
+     │     1     │ 2 │
+     │           ├───┤
      │           │ 3 │
      ├─────┬─────┼───┤
      │  4  │  5  │ 6 │
@@ -89,9 +89,7 @@ const items = limit ? projects.slice(0, limit) : projects;
   }
   .tile__media img { height: 100%; }
 
-  @media (max-width: 999px) {
-    .tile__media { aspect-ratio: 4 / 3; }
-  }
+  @media (max-width: 999px) { .tile__media { aspect-ratio: 4 / 3; } }
 
   .tile::after {
     content: '';

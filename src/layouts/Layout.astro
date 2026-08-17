@@ -2,27 +2,36 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import MobileTabBar from '../components/MobileTabBar.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 import { company, siteUrl } from '../data/site';
+import { useContent } from '../i18n/content';
+import { getLang, counterpart, type Lang } from '../i18n/routes';
 
 interface Props {
-  title: string;
-  description: string;
-  path?: string;
+  page: 'home' | 'services' | 'projects' | 'about' | 'contact' | 'notFound';
 }
 
-const { title, description, path = '/' } = Astro.props;
-const canonical = new URL(path, siteUrl).href;
+const { page } = Astro.props;
+
+const lang: Lang = getLang(Astro.url.pathname);
+const t = useContent(lang);
+const meta = t.meta[page];
+
+const here = Astro.url.pathname;
+const enPath = counterpart(here, 'en');
+const esPath = counterpart(here, 'es');
+const canonical = new URL(lang === 'en' ? enPath : esPath, siteUrl).href;
 
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'GeneralContractor',
   name: company.legalName,
   alternateName: company.name,
-  slogan: company.tagline,
-  description:
-    'Custom cabinetry, fine carpentry and luxury kitchen and bathroom remodeling in West Palm Beach and across Palm Beach County, Florida.',
+  slogan: t.footer.tagline,
+  description: meta.description,
   url: siteUrl,
-  telephone: `+1${company.whatsapp.slice(1)}`,
+  telephone: '+15613329669',
   email: company.email,
   image: `${siteUrl}/logo.jpg`,
   logo: `${siteUrl}/logo.jpg`,
@@ -32,34 +41,34 @@ const schema = {
     addressRegion: company.state,
     addressCountry: 'US',
   },
-  areaServed: [
-    'West Palm Beach',
-    'Palm Beach Island',
-    'Jupiter',
-    'Delray Beach',
-    'Boca Raton',
-    'Miami',
-  ].map((n) => ({ '@type': 'City', name: n })),
+  areaServed: t.areas.list.map((n) => ({ '@type': 'City', name: n })),
+  knowsLanguage: ['en', 'es'],
   sameAs: [company.instagram, company.facebook],
 };
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
     <link rel="canonical" href={canonical} />
 
-    <link rel="icon" type="image/jpeg" href="/logo.jpg" />
-    <meta name="theme-color" content="#1B3A2F" />
+    <link rel="alternate" hreflang="en" href={new URL(enPath, siteUrl).href} />
+    <link rel="alternate" hreflang="es" href={new URL(esPath, siteUrl).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(enPath, siteUrl).href} />
+
+    <link rel="icon" type="image/png" href="/img/mark.png" />
+    <link rel="apple-touch-icon" href="/logo.jpg" />
+    <meta name="theme-color" content="#0E1F19" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={company.legalName} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_US' : 'en_US'} />
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={`${siteUrl}/img/hero-kitchen.jpg`} />
     <meta name="twitter:card" content="summary_large_image" />
@@ -71,19 +80,38 @@ const schema = {
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap"
     />
 
+    <!-- Language routing: send Spanish-speaking visitors to /es/ on first
+         visit, but never override an explicit choice made with the switcher. -->
+    <script is:inline define:vars={{ lang, enPath, esPath }}>
+      (() => {
+        let stored = null;
+        try {
+          stored = localStorage.getItem('pw-lang');
+        } catch (_) {}
+
+        if (lang === 'en') {
+          const prefersEs = (navigator.language || '').toLowerCase().startsWith('es');
+          if (stored === 'es' || (!stored && prefersEs)) location.replace(esPath);
+        } else if (stored === 'en') {
+          location.replace(enPath);
+        }
+      })();
+    </script>
+
     <set:html value={`<script type="application/ld+json">${JSON.stringify(schema)}</script>`} />
   </head>
 
   <body>
-    <a href="#main" class="visually-hidden">Skip to content</a>
+    <a href="#main" class="visually-hidden">{t.common.skip}</a>
     <Header />
     <main id="main">
       <slot />
     </main>
     <Footer />
+    <WhatsAppFloat />
+    <MobileTabBar />
 
     <script is:inline>
-      // Scroll reveal
       (() => {
         const items = document.querySelectorAll('[data-reveal]');
         if (!items.length) return;
@@ -107,3 +135,9 @@ const schema = {
     </script>
   </body>
 </html>
+
+<style is:global>
+  /* leave room for the fixed mobile tab bar */
+  body { padding-bottom: calc(4.25rem + env(safe-area-inset-bottom, 0px)); }
+  @media (min-width: 1000px) { body { padding-bottom: 0; } }
+</style>
